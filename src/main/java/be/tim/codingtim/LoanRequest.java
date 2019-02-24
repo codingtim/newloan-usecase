@@ -1,7 +1,13 @@
 package be.tim.codingtim;
 
 public class LoanRequest {
-    public LoanRequest(ContactInformation contactInformation) {
+    private ContactInformation contactInformation;
 
+    public LoanRequest(ContactInformation contactInformation) {
+        this.contactInformation = contactInformation;
+    }
+
+    public SocialSecurityNumber getSocialSecurityNumber() {
+        return contactInformation.getSocialSecurityNumber();
     }
 }

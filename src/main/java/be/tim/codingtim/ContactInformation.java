@@ -9,4 +9,8 @@ public class ContactInformation {
         this.socialSecurityNumber = socialSecurityNumber;
         this.dateOfBirth = dateOfBirth;
     }
+
+    public SocialSecurityNumber getSocialSecurityNumber() {
+        return socialSecurityNumber;
+    }
 }

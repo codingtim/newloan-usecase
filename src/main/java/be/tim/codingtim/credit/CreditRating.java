@@ -1,4 +1,4 @@
-package be.tim.codingtim;
+package be.tim.codingtim.credit;
 
 public class CreditRating {
 

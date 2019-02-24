@@ -1,5 +1,9 @@
 package be.tim.codingtim;
 
+import be.tim.codingtim.credit.CreditRating;
+import be.tim.codingtim.loan.LoanApproval;
+import be.tim.codingtim.loan.LoanLender;
+import be.tim.codingtim.loan.LoanRequest;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;

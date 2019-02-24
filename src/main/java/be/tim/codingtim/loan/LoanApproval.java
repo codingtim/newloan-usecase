@@ -1,4 +1,4 @@
-package be.tim.codingtim;
+package be.tim.codingtim.loan;
 
 public class LoanApproval {
     private boolean approved;

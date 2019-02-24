@@ -1,4 +1,7 @@
-package be.tim.codingtim;
+package be.tim.codingtim.loan;
+
+import be.tim.codingtim.credit.CreditRater;
+import be.tim.codingtim.credit.CreditRating;
 
 public class LoanLender {
 

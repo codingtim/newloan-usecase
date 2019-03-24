@@ -1,9 +1,8 @@
 package be.tim.codingtim.loan;
 
-class LoanApproval implements LoanResponse {
-
+class LoanDenied implements LoanResponse {
     @Override
     public boolean isApproved() {
-        return true;
+        return false;
     }
 }

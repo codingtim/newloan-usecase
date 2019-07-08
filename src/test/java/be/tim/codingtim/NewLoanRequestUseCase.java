@@ -1,6 +1,7 @@
 package be.tim.codingtim;
 
 import be.tim.codingtim.credit.CreditRating;
+import be.tim.codingtim.loan.InterestRate;
 import be.tim.codingtim.loan.LoanLender;
 import be.tim.codingtim.loan.LoanRequest;
 import be.tim.codingtim.loan.LoanResponse;
@@ -26,9 +27,14 @@ class NewLoanRequestUseCase {
                         DateOfBirth.of(LocalDate.parse("1988-01-01"), clock)
                 ), clock
         );
-        LoanResponse response = loanLender.handle(loanRequest, ssnr -> new CreditRating(500));
+        LoanResponse response = loanLender.handle(
+                loanRequest,
+                ssnr -> new CreditRating(500),
+                r -> new InterestRate(1.2d)
+        );
         assertNotNull(response);
         assertTrue(response.isApproved());
+        assertEquals(new InterestRate(1.2d), response.getInterestRate());
     }
 
     @Test
@@ -51,7 +57,11 @@ class NewLoanRequestUseCase {
                         DateOfBirth.of(LocalDate.parse("1988-01-01"), clock)
                 ), clock
         );
-        LoanResponse response = loanLender.handle(loanRequest, ssnr -> new CreditRating(499));
+        LoanResponse response = loanLender.handle(loanRequest,
+                ssnr -> new CreditRating(499),
+                r -> {
+                    throw new RuntimeException("Get quote should not be called here");
+                });
         assertNotNull(response);
         assertFalse(response.isApproved());
     }

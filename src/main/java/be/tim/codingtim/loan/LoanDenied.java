@@ -5,4 +5,9 @@ class LoanDenied implements LoanResponse {
     public boolean isApproved() {
         return false;
     }
+
+    @Override
+    public InterestRate getInterestRate() {
+        throw new IllegalArgumentException("A denied loan has no interest rate!");
+    }
 }

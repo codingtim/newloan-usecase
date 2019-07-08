@@ -14,14 +14,18 @@ public class DateOfBirth {
     }
 
     public static DateOfBirth of(LocalDate date, Clock clock) {
-        if(ChronoUnit.YEARS.between(date, LocalDate.now(clock)) > THIRTEEN_YEARS) {
+        if(getAge(date, clock) > THIRTEEN_YEARS) {
             return new DateOfBirth(date);
         } else {
             throw new IllegalArgumentException("Customers should be older than 13 years.");
         }
     }
 
-    public LocalDate getDate() {
-        return date;
+    private static int getAge(LocalDate date, Clock clock) {
+        return (int) ChronoUnit.YEARS.between(date, LocalDate.now(clock));
+    }
+
+    public int getAge(Clock clock) {
+        return getAge(date, clock);
     }
 }

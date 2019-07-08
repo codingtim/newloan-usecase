@@ -7,7 +7,9 @@ import be.tim.codingtim.loan.LoanResponse;
 import org.junit.jupiter.api.Test;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,11 +19,12 @@ class NewLoanRequestUseCase {
 
     @Test
     void whenContactInformationAndCreditRatingIsOkThenReturnLoanEstimation() {
-        LoanRequest loanRequest = new LoanRequest(
+        Clock clock = Clock.systemUTC();
+        LoanRequest loanRequest = LoanRequest.of(
                 new ContactInformation(
                         SocialSecurityNumber.of("123-45-6789"),
-                        DateOfBirth.of(LocalDate.parse("1988-01-01"), Clock.systemUTC())
-                )
+                        DateOfBirth.of(LocalDate.parse("1988-01-01"), clock)
+                ), clock
         );
         LoanResponse response = loanLender.handle(loanRequest, ssnr -> new CreditRating(500));
         assertNotNull(response);
@@ -29,12 +32,24 @@ class NewLoanRequestUseCase {
     }
 
     @Test
-    void whenContactInformationIsOkButCreditRatingIsTooLowThenReturnUnapproved() {
-        LoanRequest loanRequest = new LoanRequest(
+    void whenLoanRequestTooYoungThenReturnError() {
+        Clock clock = Clock.fixed(Instant.parse("2018-07-08T00:00:00.000Z"), ZoneId.of("UTC"));
+        assertThrows(IllegalArgumentException.class, () -> LoanRequest.of(
                 new ContactInformation(
                         SocialSecurityNumber.of("123-45-6789"),
-                        DateOfBirth.of(LocalDate.parse("1988-01-01"), Clock.systemUTC())
-                )
+                        DateOfBirth.of(LocalDate.parse("2000-07-09"), clock)
+                ), clock
+        ));
+    }
+
+    @Test
+    void whenContactInformationIsOkButCreditRatingIsTooLowThenReturnUnapproved() {
+        Clock clock = Clock.systemUTC();
+        LoanRequest loanRequest = LoanRequest.of(
+                new ContactInformation(
+                        SocialSecurityNumber.of("123-45-6789"),
+                        DateOfBirth.of(LocalDate.parse("1988-01-01"), clock)
+                ), clock
         );
         LoanResponse response = loanLender.handle(loanRequest, ssnr -> new CreditRating(499));
         assertNotNull(response);

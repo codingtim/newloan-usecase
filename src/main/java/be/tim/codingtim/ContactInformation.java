@@ -1,5 +1,7 @@
 package be.tim.codingtim;
 
+import java.time.Clock;
+
 public class ContactInformation {
 
     private SocialSecurityNumber socialSecurityNumber;
@@ -12,5 +14,9 @@ public class ContactInformation {
 
     public SocialSecurityNumber getSocialSecurityNumber() {
         return socialSecurityNumber;
+    }
+
+    public int getAge(Clock clock) {
+        return dateOfBirth.getAge(clock);
     }
 }
